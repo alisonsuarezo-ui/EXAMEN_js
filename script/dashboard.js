@@ -5,6 +5,7 @@ const HITOS_KEY = "hitos";
 const CALENDAR_KEY = "actividades";
 
 
+
 function loadDashboardStats(){
 
     const activities = JSON.parse(localStorage.getItem(ACTIVITIES_KEY)) || [];
@@ -59,3 +60,59 @@ function loadDashboardStats(){
 
 document.addEventListener("DOMContentLoaded", loadDashboardStats);
 window.addEventListener("storage", loadDashboardStats);
+
+function loadDashboardProyects (){
+    
+    const proyects = JSON.parse(localStorage.getItem(PROJECTS_KEY)) || [];
+
+    const recorrer = array.forEach(PROJECTS_KEY => {
+        
+        
+    });
+
+    
+    
+    
+    const totalHitos = hitos.length;
+    const completados = hitos.filter(h => h.estado === "terminado").length;
+
+    const pending =
+        activities.filter(a => a.status === "Pendiente").length +
+        calendarActivities.filter(a => a.estado === "pendiente").length;
+
+    const progress =
+        activities.filter(a => a.status === "En progreso").length +
+        calendarActivities.filter(a => a.estado === "en-proceso").length;
+
+    const done =
+        activities.filter(a => a.status === "Terminada").length +
+        calendarActivities.filter(a => a.estado === "terminada").length;
+
+    document.getElementById("totalproyects").textContent = proyects.length;
+
+    const totalActividades = pending + progress + done;
+    const porcentajeActividades = totalActividades === 0 ? 0 : (done / totalActividades) * 100;
+
+    document.querySelector(".proyects-progress p").innerHTML =
+        `<span id="milestones">${completados}</span> de ${totalHitos} hitos completados`;
+
+    const barra = document.querySelector(".proyects-progress .progress-bar div");
+
+    if (barra) {
+        const porcentaje = totalHitos === 0 ? 0 : (completados / totalHitos) * 100;
+        barra.style.width = porcentaje + "%";
+    }
+
+    const barraActividades = document.querySelector(".activity-status .progress-bar div");
+
+    if (barraActividades) {
+        barraActividades.style.width = porcentajeActividades + "%";
+    }
+}
+
+document.addEventListener("DOMContentLoaded", loadDashboardProyects);
+window.addEventListener("storage", loadDashboardProyects);
+
+
+
+}
